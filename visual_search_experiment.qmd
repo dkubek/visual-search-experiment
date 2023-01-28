@@ -1,0 +1,31 @@
+---
+title: "Visual Search Experiment"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+---
+
+```{python}
+#| echo: false
+import numpy as np
+import seaborn as sns
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+import pandas as pd
+
+# Apply the default theme
+sns.set_theme()
+```
+
+
+# Introduction
+
+TODO: Describe Visual Search
+
+```{python}
+#| label: fig-polar
+#| fig-cap: "A line plot on a polar axis"#| 
+#| 
+```
+

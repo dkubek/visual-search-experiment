@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "visual-search-experiment"
+version = "0.1.0"
+description = "Visual search experiment and exploration."
+authors = ["David Kubek <david.kubek@gmail.com>"]
+license = "MIT License"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^1.5.3"
+statsmodels = "^0.13.5"
+seaborn = "^0.12.2"
+jupyter = "^1.0.0"
+jupyter-client = "7.4.9"
+numpy = "^1.24.1"
+jupyterlab = "^3.5.3"
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.15.10"
+isort = "^5.11.4"
+flake8 = "^6.0.0"
+yapf = "^0.32.0"
+pylance = "^0.2.9"
+dvc-ssh = "^2.21.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
