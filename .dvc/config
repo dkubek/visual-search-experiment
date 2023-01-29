@@ -2,3 +2,4 @@
     remote = lab
 ['remote "lab"']
     url = ssh://kubekd@u-pl23.ms.mff.cuni.cz/afs/ms/u/k/kubekd/data
+    ask_password = true
