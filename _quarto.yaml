@@ -1,4 +1,7 @@
 project:
+  # Type website is important if more then one format is specified in the quarto
+  # document, if omitted ``quarto publish gh-pages`` will fail
+  type: website
   output-dir: output
 
 execute:

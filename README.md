@@ -58,9 +58,3 @@ Locally run
 quarto publish gh-pages
 ```
 this will render the report and push the output to branch ``gh-pages``.
-
-**NOTE**: If you specify more then one format (pdf + html) in the ``.qmd``
-*document and set custom output directory, the publish command will fail to
-generate the pdf document. Either disable the custom out directory or disable
-one the generation of the pdf.
-
