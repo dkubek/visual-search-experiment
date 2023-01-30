@@ -21,6 +21,7 @@ jupyter: python3
 ---
 
 ```{python}
+#| code-summary: Imports and setup
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
@@ -113,7 +114,8 @@ to take a break during the experiment.
 
 
 ```{python}
-# Load data
+#| code-summary: Load data
+ 
 data_path = Path('data/')
 
 def load_file(filepath : Path) -> pd.DataFrame:
@@ -154,12 +156,15 @@ df_all = df_all[df_all['participant'] > 0]
 ```
 
 ```{python}
+#| code-summary: Print sample of the data
 #| tbl-cap: Sample of the input data.
+#| warning: false
+ 
 df_all.head()
 ```
 
 ```{python}
-# Remove incorrect responses
+#| code-summary: Remove incorrect responses
 df_correct = df_all[df_all.correct]
 ```
 
@@ -171,9 +176,11 @@ participants on different search types as well as set sizes. We remove the error
 trials for the subsequent analysis.
 
 ```{python}
+#| code-summary: Report accuracy
 #| label: tbl-accuracy
 #| tbl-cap: Participant accuracy.
-# Report accuracy
+#| warning: false
+ 
 hlp = df_all.groupby('participant')\
   .agg(accuracy=('correct', 'mean'))\
   .round(decimals=3)\
@@ -191,8 +198,9 @@ hlp
 
 
 ```{python}
+#| code-summary: Report accuracy by homogeneity and participant
 #| label: fig-accuracy
-#| fig-cap: "Accuracy of of each participant (column) split by homogenity (row)."
+#| fig-cap: "Accuracy of of each participant (column) split by homogeneity (row)."
  
 hlp = df_all.groupby(['participant','set_size', 'conjuction'])\
   .agg(
@@ -238,6 +246,7 @@ In @fig-rt we report the distribution of reaction times split by set size for
 each participant.
 
 ```{python}
+#| code-summary: Report reaction time split by set size
 #| label: fig-rt
 #| fig-cap: "Reaction times divided by set size."
 
@@ -276,6 +285,8 @@ These observations are also depicted in the @fig-slope.
 
 
 ```{python}
+#| code-summary: Fit regression models
+
 # Fit a linear regression model predicting the reaction time based on set size.
 # Consider cases with different homogeneity and whether the target was present
 # or not and report the slope of the coefficient for reaction time and 95%
@@ -320,8 +331,10 @@ df_result = df_result.assign(
 ```
 
 ```{python}
+#| code-summary: Report search slope with confidence intervals
 #| label: tbl-results
 #| tbl-cap: Search slope with 95% confidence intervals.
+#| warning: false
  
 # Print pretty table
 hlp = df_result[
@@ -346,6 +359,7 @@ hlp.reset_index(drop=True)
 ```
 
 ```{python}
+#| code-summary: Plot search slopes with confidence intervals
 #| label: fig-slope
 #| fig-cap: Search slope with 95% confidence intervals. The left figure contains the values for feature search, the right for conjunction search. Two values for each participant are shown. One for target present (circle) and one for target absent (square).
  
