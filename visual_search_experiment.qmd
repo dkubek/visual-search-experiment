@@ -8,6 +8,7 @@ bibliography: references.bib
 
 format:
   html:
+    toc: true
     theme: custom.scss
     code-fold: true
     code-line-numbers: true
@@ -16,8 +17,7 @@ format:
 
 # execute: 
 #   cache: true
-#   freeze: true
-jupyter: python3
+#jupyter: python3
 ---
 
 ```{python}
