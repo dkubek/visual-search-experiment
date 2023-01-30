@@ -200,9 +200,9 @@ div.csl-indent {
 
 </header>
 
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="1">
 <details>
-<summary>Code</summary>
+<summary>Imports and setup</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> warnings</span>
 <span id="cb1-2"><a href="#cb1-2"></a>warnings.simplefilter(action<span class="op">=</span><span class="st">'ignore'</span>, category<span class="op">=</span><span class="pp">FutureWarning</span>)</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
@@ -240,52 +240,51 @@ div.csl-indent {
 <p>We will study how the reaction time changes as set size increases under different circumstances. Specifically, the effects of set size, homogeneity (feature vs.&nbsp;conjunction) and target presence on reaction time will be examined. A total of N=3 participants will be recruited for the study. We then fit a linear regression model predicting the reaction time based on the set size, search type and target presence. We will be interested in the coefficient in the linear model corresponding to set size. We can think of the slope as giving us a measure of how much does the reaction time increase, if we increase the set size by 1. This will be our measure of efficiency.</p>
 <p>The experiment will consist of 300 trials, in which participants will be presented with an image containing a set of lines with different orientations (either <code>/</code> or <code>\</code>). The participants will be instructed to search for a pink line with an orientation of <code>/</code> and indicate whether it is present or absent. The trials will vary in set size (10, 20, 30, or 40) and search type (feature or conjunction). In <em>feature search</em>, the image will contain only lines of a single color (lines with orientation <code>\</code> act as distractors), while in <em>conjunction search</em>, the image will contain a mixture of blue and pink lines (blue lines and pink lines with orientation <code>\</code> act as distractors). Participants will be provided with feedback on the accuracy of their responses and encouraged to respond as quickly as possible. The estimated duration of the experiment is approximately 15-20 minutes.</p>
 <p>The participants consisted of students in age range 20-25 years old. Both genders were represented. The participants were seated in front of a 14-inch monitor with 1920x1080 resolution and instructed to make themselves comfortable. No training trials were conducted prior to the experiment. No participant needed to take a break during the experiment.</p>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="2">
 <details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Load data</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>data_path <span class="op">=</span> Path(<span class="st">'data/'</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">def</span> load_file(filepath : Path) <span class="op">-&gt;</span> pd.DataFrame:</span>
-<span id="cb2-5"><a href="#cb2-5"></a>    participant_id <span class="op">=</span> filepath.stem</span>
-<span id="cb2-6"><a href="#cb2-6"></a>    df <span class="op">=</span> pd.read_csv(filepath)</span>
-<span id="cb2-7"><a href="#cb2-7"></a>    </span>
-<span id="cb2-8"><a href="#cb2-8"></a>    <span class="co"># Delete rows that do not contain response data</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>    df <span class="op">=</span> df[df.trial_type <span class="op">==</span> <span class="st">'canvas-keyboard-response'</span>]</span>
-<span id="cb2-10"><a href="#cb2-10"></a>    </span>
-<span id="cb2-11"><a href="#cb2-11"></a>    df[<span class="st">'participant'</span>] <span class="op">=</span> participant_id</span>
-<span id="cb2-12"><a href="#cb2-12"></a>    df <span class="op">=</span> df.rename(</span>
-<span id="cb2-13"><a href="#cb2-13"></a>      {<span class="st">"setSize"</span>: <span class="st">"set_size"</span>},</span>
-<span id="cb2-14"><a href="#cb2-14"></a>      axis<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a>      )</span>
-<span id="cb2-16"><a href="#cb2-16"></a>    df <span class="op">=</span> df[</span>
-<span id="cb2-17"><a href="#cb2-17"></a>      [<span class="st">'participant'</span>, <span class="st">'present'</span>, <span class="st">'set_size'</span>, <span class="st">'conjuction'</span>,<span class="st">'correct'</span> , <span class="st">'rt'</span>]</span>
-<span id="cb2-18"><a href="#cb2-18"></a>      ]</span>
-<span id="cb2-19"><a href="#cb2-19"></a>    df <span class="op">=</span> df.astype(</span>
-<span id="cb2-20"><a href="#cb2-20"></a>      {</span>
-<span id="cb2-21"><a href="#cb2-21"></a>        <span class="st">"participant"</span>: <span class="bu">int</span>,</span>
-<span id="cb2-22"><a href="#cb2-22"></a>        <span class="st">"present"</span>: <span class="bu">bool</span>,</span>
-<span id="cb2-23"><a href="#cb2-23"></a>        <span class="st">'set_size'</span>: <span class="bu">int</span>, </span>
-<span id="cb2-24"><a href="#cb2-24"></a>        <span class="st">'conjuction'</span>: <span class="bu">bool</span>,</span>
-<span id="cb2-25"><a href="#cb2-25"></a>        <span class="st">'correct'</span>: <span class="bu">bool</span>,</span>
-<span id="cb2-26"><a href="#cb2-26"></a>        <span class="st">'rt'</span>: <span class="bu">int</span></span>
-<span id="cb2-27"><a href="#cb2-27"></a>      }</span>
-<span id="cb2-28"><a href="#cb2-28"></a>    )</span>
-<span id="cb2-29"><a href="#cb2-29"></a>    df <span class="op">=</span> df.reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-30"><a href="#cb2-30"></a>    </span>
-<span id="cb2-31"><a href="#cb2-31"></a>    <span class="cf">return</span> df</span>
+<summary>Load data</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>data_path <span class="op">=</span> Path(<span class="st">'data/'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">def</span> load_file(filepath : Path) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb2-4"><a href="#cb2-4"></a>    participant_id <span class="op">=</span> filepath.stem</span>
+<span id="cb2-5"><a href="#cb2-5"></a>    df <span class="op">=</span> pd.read_csv(filepath)</span>
+<span id="cb2-6"><a href="#cb2-6"></a>    </span>
+<span id="cb2-7"><a href="#cb2-7"></a>    <span class="co"># Delete rows that do not contain response data</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>    df <span class="op">=</span> df[df.trial_type <span class="op">==</span> <span class="st">'canvas-keyboard-response'</span>]</span>
+<span id="cb2-9"><a href="#cb2-9"></a>    </span>
+<span id="cb2-10"><a href="#cb2-10"></a>    df[<span class="st">'participant'</span>] <span class="op">=</span> participant_id</span>
+<span id="cb2-11"><a href="#cb2-11"></a>    df <span class="op">=</span> df.rename(</span>
+<span id="cb2-12"><a href="#cb2-12"></a>      {<span class="st">"setSize"</span>: <span class="st">"set_size"</span>},</span>
+<span id="cb2-13"><a href="#cb2-13"></a>      axis<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a>      )</span>
+<span id="cb2-15"><a href="#cb2-15"></a>    df <span class="op">=</span> df[</span>
+<span id="cb2-16"><a href="#cb2-16"></a>      [<span class="st">'participant'</span>, <span class="st">'present'</span>, <span class="st">'set_size'</span>, <span class="st">'conjuction'</span>,<span class="st">'correct'</span> , <span class="st">'rt'</span>]</span>
+<span id="cb2-17"><a href="#cb2-17"></a>      ]</span>
+<span id="cb2-18"><a href="#cb2-18"></a>    df <span class="op">=</span> df.astype(</span>
+<span id="cb2-19"><a href="#cb2-19"></a>      {</span>
+<span id="cb2-20"><a href="#cb2-20"></a>        <span class="st">"participant"</span>: <span class="bu">int</span>,</span>
+<span id="cb2-21"><a href="#cb2-21"></a>        <span class="st">"present"</span>: <span class="bu">bool</span>,</span>
+<span id="cb2-22"><a href="#cb2-22"></a>        <span class="st">'set_size'</span>: <span class="bu">int</span>, </span>
+<span id="cb2-23"><a href="#cb2-23"></a>        <span class="st">'conjuction'</span>: <span class="bu">bool</span>,</span>
+<span id="cb2-24"><a href="#cb2-24"></a>        <span class="st">'correct'</span>: <span class="bu">bool</span>,</span>
+<span id="cb2-25"><a href="#cb2-25"></a>        <span class="st">'rt'</span>: <span class="bu">int</span></span>
+<span id="cb2-26"><a href="#cb2-26"></a>      }</span>
+<span id="cb2-27"><a href="#cb2-27"></a>    )</span>
+<span id="cb2-28"><a href="#cb2-28"></a>    df <span class="op">=</span> df.reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-29"><a href="#cb2-29"></a>    </span>
+<span id="cb2-30"><a href="#cb2-30"></a>    <span class="cf">return</span> df</span>
+<span id="cb2-31"><a href="#cb2-31"></a></span>
 <span id="cb2-32"><a href="#cb2-32"></a></span>
-<span id="cb2-33"><a href="#cb2-33"></a></span>
-<span id="cb2-34"><a href="#cb2-34"></a>df_all <span class="op">=</span> pd.concat(</span>
-<span id="cb2-35"><a href="#cb2-35"></a>    load_file(<span class="bu">file</span>) <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> data_path.glob(<span class="st">"*.csv"</span>)</span>
-<span id="cb2-36"><a href="#cb2-36"></a>  )<span class="op">\</span></span>
-<span id="cb2-37"><a href="#cb2-37"></a>  .reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-38"><a href="#cb2-38"></a>df_all <span class="op">=</span> df_all[df_all[<span class="st">'participant'</span>] <span class="op">&gt;</span> <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-33"><a href="#cb2-33"></a>df_all <span class="op">=</span> pd.concat(</span>
+<span id="cb2-34"><a href="#cb2-34"></a>    load_file(<span class="bu">file</span>) <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> data_path.glob(<span class="st">"*.csv"</span>)</span>
+<span id="cb2-35"><a href="#cb2-35"></a>  )<span class="op">\</span></span>
+<span id="cb2-36"><a href="#cb2-36"></a>  .reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-37"><a href="#cb2-37"></a>df_all <span class="op">=</span> df_all[df_all[<span class="st">'participant'</span>] <span class="op">&gt;</span> <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="3">
 <details>
-<summary>Code</summary>
+<summary>Print sample of the data</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>df_all.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -355,34 +354,32 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="4">
 <details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Remove incorrect responses</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>df_correct <span class="op">=</span> df_all[df_all.correct]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<summary>Remove incorrect responses</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>df_correct <span class="op">=</span> df_all[df_all.correct]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
 <p>Firstly, in <a href="#tbl-accuracy">Table&nbsp;1</a> we report the accuracy (percentage of errors for each participant). Additionally <a href="#fig-accuracy">Figure&nbsp;1</a> we report the accuracy of the participants on different search types as well as set sizes. We remove the error trials for the subsequent analysis.</p>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="5">
 <details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Report accuracy</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>hlp <span class="op">=</span> df_all.groupby(<span class="st">'participant'</span>)<span class="op">\</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>  .agg(accuracy<span class="op">=</span>(<span class="st">'correct'</span>, <span class="st">'mean'</span>))<span class="op">\</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>  .<span class="bu">round</span>(decimals<span class="op">=</span><span class="dv">3</span>)<span class="op">\</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>  .reset_index()</span>
-<span id="cb5-6"><a href="#cb5-6"></a>hlp <span class="op">=</span> hlp.rename(</span>
-<span id="cb5-7"><a href="#cb5-7"></a>  {</span>
-<span id="cb5-8"><a href="#cb5-8"></a>    <span class="st">"participant"</span>: <span class="st">"Participant"</span>,</span>
-<span id="cb5-9"><a href="#cb5-9"></a>    <span class="st">"accuracy"</span>: <span class="st">"Accuracy"</span>,</span>
-<span id="cb5-10"><a href="#cb5-10"></a>  },</span>
-<span id="cb5-11"><a href="#cb5-11"></a>  axis<span class="op">=</span><span class="st">'columns'</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a>)</span>
-<span id="cb5-13"><a href="#cb5-13"></a></span>
-<span id="cb5-14"><a href="#cb5-14"></a>hlp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<summary>Report accuracy</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>hlp <span class="op">=</span> df_all.groupby(<span class="st">'participant'</span>)<span class="op">\</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>  .agg(accuracy<span class="op">=</span>(<span class="st">'correct'</span>, <span class="st">'mean'</span>))<span class="op">\</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>  .<span class="bu">round</span>(decimals<span class="op">=</span><span class="dv">3</span>)<span class="op">\</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>  .reset_index()</span>
+<span id="cb5-5"><a href="#cb5-5"></a>hlp <span class="op">=</span> hlp.rename(</span>
+<span id="cb5-6"><a href="#cb5-6"></a>  {</span>
+<span id="cb5-7"><a href="#cb5-7"></a>    <span class="st">"participant"</span>: <span class="st">"Participant"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8"></a>    <span class="st">"accuracy"</span>: <span class="st">"Accuracy"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9"></a>  },</span>
+<span id="cb5-10"><a href="#cb5-10"></a>  axis<span class="op">=</span><span class="st">'columns'</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a>)</span>
+<span id="cb5-12"><a href="#cb5-12"></a></span>
+<span id="cb5-13"><a href="#cb5-13"></a>hlp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div id="tbl-accuracy" class="anchored">
@@ -419,9 +416,9 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="6">
 <details>
-<summary>Code</summary>
+<summary>Report accuracy by homogeneity and participant</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>hlp <span class="op">=</span> df_all.groupby([<span class="st">'participant'</span>,<span class="st">'set_size'</span>, <span class="st">'conjuction'</span>])<span class="op">\</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>  .agg(</span>
 <span id="cb6-3"><a href="#cb6-3"></a>    Correct<span class="op">=</span>(<span class="st">'correct'</span>, <span class="st">'mean'</span>),</span>
@@ -465,15 +462,15 @@ div.csl-indent {
 <div id="fig-accuracy" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="visual_search_experiment_files/figure-html/fig-accuracy-output-1.png" width="1553" height="941" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1: Accuracy of of each participant (column) split by homogenity (row).</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: Accuracy of of each participant (column) split by homogeneity (row).</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
 <p>In <a href="#fig-rt">Figure&nbsp;2</a> we report the distribution of reaction times split by set size for each participant.</p>
-<div class="cell" data-execution_count="8">
+<div class="cell" data-execution_count="7">
 <details>
-<summary>Code</summary>
+<summary>Report reaction time split by set size</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>hlp <span class="op">=</span> df_correct[[<span class="st">"participant"</span>, <span class="st">"set_size"</span>, <span class="st">"rt"</span>]].copy()</span>
 <span id="cb7-2"><a href="#cb7-2"></a></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="co"># Treat set size as categorical data</span></span>
@@ -503,9 +500,9 @@ div.csl-indent {
 <p>Next, we focus our attention on predicting the reaction times based on set size. We are interested in how the performance changes if we change the homogeneity (feature/conjunction) and target presence. In <a href="#tbl-results">Table&nbsp;2</a> we report the set size effect (search slope) for each case and participant with the 95% confidence interval.</p>
 <p>It is noteworthy that the slope for feature search is consistently lower compared to conjunction search (when the target is present). This trend is also observed for target absent trials in both feature and conjunction searches. Lastly, the absence of the target leads to an increase in the search slope, regardless of the search type.</p>
 <p>These observations are also depicted in the <a href="#fig-slope">Figure&nbsp;3</a>.</p>
-<div class="cell" data-execution_count="9">
+<div class="cell" data-execution_count="8">
 <details>
-<summary>Code</summary>
+<summary>Fit regression models</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Fit a linear regression model predicting the reaction time based on set size.</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="co"># Consider cases with different homogeneity and whether the target was present</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="co"># or not and report the slope of the coefficient for reaction time and 95%</span></span>
@@ -549,9 +546,9 @@ div.csl-indent {
 <span id="cb8-41"><a href="#cb8-41"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-execution_count="10">
+<div class="cell" data-execution_count="9">
 <details>
-<summary>Code</summary>
+<summary>Report search slope with confidence intervals</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Print pretty table</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a>hlp <span class="op">=</span> df_result[</span>
 <span id="cb9-3"><a href="#cb9-3"></a>    [<span class="st">'participant'</span>, <span class="st">'conjunction'</span>, <span class="st">'present'</span>, <span class="st">'set_size_slope'</span>, <span class="st">'ci_l'</span>,<span class="st">'ci_u'</span>]</span>
@@ -705,9 +702,9 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="11">
+<div class="cell" data-execution_count="10">
 <details>
-<summary>Code</summary>
+<summary>Plot search slopes with confidence intervals</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Plot search slope for target present absent and feature or conjunction</span></span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="im">from</span> matplotlib.lines <span class="im">import</span> Line2D</span>
 <span id="cb10-3"><a href="#cb10-3"></a></span>
