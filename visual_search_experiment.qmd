@@ -435,3 +435,5 @@ size items until the target is found.  However, in the absence of the target,
 the participant must spend more time examining the objects in search of a
 target, which results in an increase in reaction time, which is consistent with
 our observations.
+
+# References
