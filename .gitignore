@@ -1,3 +1,10 @@
+# Ignore cache
+.jupyter_cache/
+
+# Ignore IDE files
+.vscode/
+
+# Ignore quatro output files
 output/
 
 # Byte-compiled / optimized / DLL files
