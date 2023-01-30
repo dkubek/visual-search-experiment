@@ -19,8 +19,8 @@ jobs:
 
       - name: Install Poetry and Dependencies
         uses: snok/install-poetry@v1
-      - run: poetry install
-      - run: poetry shell
+      - run: poetry install --without=dev
+      - run: source $(poetry env info --path)/bin/activate
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
