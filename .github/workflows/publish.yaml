@@ -17,14 +17,10 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Install Poetry and Dependencies
-        uses: snok/install-poetry@v1
-      - run: poetry install --without=dev
-      - run: source $(poetry env info --path)/bin/activate
-
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+          render: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
