@@ -15,9 +15,9 @@ format:
   pdf:
     echo: false
 
-# execute: 
-#   cache: true
-#jupyter: python3
+execute: 
+  cache: true
+jupyter: python3
 ---
 
 ```{python}
