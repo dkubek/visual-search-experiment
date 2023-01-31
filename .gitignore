@@ -5,7 +5,7 @@
 .vscode/
 
 # Ignore quatro output files
-output/
+_output/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
