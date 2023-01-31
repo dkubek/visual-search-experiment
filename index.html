@@ -122,7 +122,6 @@ div.csl-indent {
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-<link rel="stylesheet" href="custom.css">
 </head>
 
 <body>
@@ -133,11 +132,11 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">1</span>  Introduction</a></li>
-  <li><a href="#experiment-setup" id="toc-experiment-setup" class="nav-link" data-scroll-target="#experiment-setup"><span class="toc-section-number">2</span>  Experiment Setup</a></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="toc-section-number">3</span>  Results</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="toc-section-number">4</span>  Conclusion</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">5</span>  References</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#experiment-setup" id="toc-experiment-setup" class="nav-link" data-scroll-target="#experiment-setup">Experiment Setup</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
 </div>
@@ -197,8 +196,8 @@ div.csl-indent {
 <span id="cb1-20"><a href="#cb1-20"></a>pd.set_option(<span class="st">"display.precision"</span>, <span class="dv">2</span>)<span class="co">#| </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="introduction" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
 <p>The visual search experiment is a psychology experiment that is used to study how the human visual system processes and searches for specific stimuli in a visual scene. The experiment typically involves presenting participants with a visual display, such as a picture or a computer screen, that contains a number of objects or stimuli. The participants are then asked to search for a specific target stimulus, such as a pink line, among the other stimuli in the display.</p>
 <p>During the experiment, the researcher may manipulate various factors, such as the number of stimuli in the display, the similarity of the stimuli to the target, or the location of the target within the display. These manipulations allow the researcher to study how different factors affect the speed and accuracy of the participant’s search for the target stimulus.</p>
 <p>One of the most widely used manipulation in visual search experiment is the set size, which is the number of stimuli in the display. The experimenter increases the set size and observe how it affects the reaction time of the participants.</p>
@@ -207,8 +206,8 @@ div.csl-indent {
 <p>Overall, visual search experiment is a widely used method in cognitive psychology to study how visual perception and attention work. It provides researchers with a tool to investigate fundamental question about how we perceive and process visual information in the world around us.</p>
 <p><span class="citation" data-cites="Wolfe:2008">(<a href="#ref-Wolfe:2008" role="doc-biblioref">Wolfe and Horowitz 2008</a>)</span></p>
 </section>
-<section id="experiment-setup" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Experiment Setup</h1>
+<section id="experiment-setup" class="level1">
+<h1>Experiment Setup</h1>
 <p>We will study how the reaction time changes as set size increases under different circumstances. Specifically, the effects of set size, homogeneity (feature vs.&nbsp;conjunction) and target presence on reaction time will be examined. A total of N=3 participants will be recruited for the study. We then fit a linear regression model predicting the reaction time based on the set size, search type and target presence. We will be interested in the coefficient in the linear model corresponding to set size. We can think of the slope as giving us a measure of how much does the reaction time increase, if we increase the set size by 1. This will be our measure of efficiency.</p>
 <p>The experiment will consist of 300 trials, in which participants will be presented with an image containing a set of lines with different orientations (either <code>/</code> or <code>\</code>). The participants will be instructed to search for a pink line with an orientation of <code>/</code> and indicate whether it is present or absent. The trials will vary in set size (10, 20, 30, or 40) and search type (feature or conjunction). In <em>feature search</em>, the image will contain only lines of a single color (lines with orientation <code>\</code> act as distractors), while in <em>conjunction search</em>, the image will contain a mixture of blue and pink lines (blue lines and pink lines with orientation <code>\</code> act as distractors). Participants will be provided with feedback on the accuracy of their responses and encouraged to respond as quickly as possible. The estimated duration of the experiment is approximately 15-20 minutes.</p>
 <p>The participants consisted of students in age range 20-25 years old. Both genders were represented. The participants were seated in front of a 14-inch monitor with 1920x1080 resolution and instructed to make themselves comfortable. No training trials were conducted prior to the experiment. No participant needed to take a break during the experiment.</p>
@@ -333,8 +332,8 @@ div.csl-indent {
 </details>
 </div>
 </section>
-<section id="results" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Results</h1>
+<section id="results" class="level1">
+<h1>Results</h1>
 <p>Firstly, in <a href="#tbl-accuracy">Table&nbsp;1</a> we report the accuracy (percentage of errors for each participant). Additionally <a href="#fig-accuracy">Figure&nbsp;1</a> we report the accuracy of the participants on different search types as well as set sizes. We remove the error trials for the subsequent analysis.</p>
 <div class="cell" data-execution_count="6">
 <details>
@@ -754,18 +753,18 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="conclusion" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Conclusion</h1>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
 <p>We now address the observed results.</p>
 <p>First, we address the variations in slopes for different search types in the presence of the target. The visual salience of the target in feature search leads to it immediately capturing our attention as it drastically differs from its surroundings. Conversely, the presence of distractors results in several similar items attracting our attention, which necessitates the examination of more items, thereby leading to an increase in reaction time, which agrees with our observations.</p>
 <p>Next we address the difference in slope for the target absent trials. In target present trials, it is generally necessary to examine roughly half of the set size items until the target is found. However, in the absence of the target, the participant must spend more time examining the objects in search of a target, which results in an increase in reaction time, which is consistent with our observations.</p>
 </section>
-<section id="references" class="level1 unnumbered" data-number="5">
+<section id="references" class="level1 unnumbered">
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">5 References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-Wolfe:2008" class="csl-entry" role="doc-biblioentry">
 Wolfe, J., and T. S. Horowitz. 2008. <span>“<span>V</span>isual Search.”</span> <em>Scholarpedia</em> 3 (7): 3325. <a href="https://doi.org/10.4249/scholarpedia.3325">https://doi.org/10.4249/scholarpedia.3325</a>.
 </div>
